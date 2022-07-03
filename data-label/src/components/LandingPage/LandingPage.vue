@@ -1,9 +1,8 @@
 <template>
 
-<div class="m-3.5">
-  Landing Page
-  <DataDisplay data="CurrentElement"></DataDisplay>
-  <ButtonRow></ButtonRow>
+<!-- <div class="mx-auto max-w-xl"> -->
+<div class="mx-auto  max-w-3xl">
+  <DataDisplay data="" class="mt-5"></DataDisplay>
 
 </div>
 
@@ -12,9 +11,8 @@
 
 <script>
 import DataDisplay from './DataDisplay.vue'
-import ButtonRow from './ButtonRow.vue'
 export default {
-  components:{ DataDisplay, ButtonRow },
+  components:{ DataDisplay},
   name: 'LandingPage',
   props: {
   }

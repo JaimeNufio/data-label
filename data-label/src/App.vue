@@ -1,19 +1,22 @@
 <template>
-  <div >
+  <div class="flex flex-col h-screen">
     <NavBar/>
-    <div class="p-1">
-      <router-view  />
+    <div class="p-1 flex-grow mb-auto">
+      <router-view  class=""/>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
 
 import NavBar from '@/components/NavBar.vue'
+import Footer from './components/Footer.vue'
 export default {
   components: {
-    NavBar 
-  },
+    NavBar,
+    Footer
+},
 }
 
 </script>
