@@ -1,12 +1,12 @@
 <template>
   <div class="">
-    <LandingPage msg="Welcome to Your Vue.js App"/>
+    <LandingPage/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import LandingPage from '@/components/LandingPage.vue'
+import LandingPage from '@/components/LandingPage/LandingPage.vue'
 
 export default {
   name: 'Root',
@@ -15,5 +15,3 @@ export default {
   }
 }
 </script>
-
-    LandingPage

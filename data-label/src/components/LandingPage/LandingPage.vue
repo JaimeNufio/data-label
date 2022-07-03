@@ -1,14 +1,22 @@
 <template>
 
-<div class="m-3.5">test</div>
+<div class="m-3.5">
+  Landing Page
+  <DataDisplay data="CurrentElement"></DataDisplay>
+  <ButtonRow></ButtonRow>
+
+</div>
+
 
 </template>
 
 <script>
+import DataDisplay from './DataDisplay.vue'
+import ButtonRow from './ButtonRow.vue'
 export default {
+  components:{ DataDisplay, ButtonRow },
   name: 'LandingPage',
   props: {
-    msg: String
   }
 }
 </script>
