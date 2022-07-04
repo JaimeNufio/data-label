@@ -2,7 +2,7 @@
 
 <!-- <div class="mx-auto max-w-xl"> -->
 <div class="mx-auto  max-w-3xl">
-  <DataDisplay data="" class="mt-5"></DataDisplay>
+  <DataDisplay data="" dir='' class="mt-5"></DataDisplay>
 
 </div>
 
@@ -11,6 +11,7 @@
 
 <script>
 import DataDisplay from './DataDisplay.vue'
+
 export default {
   components:{ DataDisplay},
   name: 'LandingPage',

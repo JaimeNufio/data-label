@@ -1,8 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import axios from 'axios'
 import './index.css'
 import './assets/tailwind.css'
+import VueAxios from 'vue-axios'
+
 
 // import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // import { library } from '@fortawesome/fontawesome-svg-core'
@@ -25,8 +28,8 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 library.add(fas, far, fab)
 dom.watch();
 
-
 createApp(App)
     .use(router)
+    .use(VueAxios,axios)
     .component('fa', FontAwesomeIcon)
     .mount('#app')
