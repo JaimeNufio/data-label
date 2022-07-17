@@ -18,15 +18,6 @@ app.get('/fetchimage',async(req,res)=>{
 
     await res.sendFile(req.query.url)
 
-    // await fs.copyFile(req.query.url, __dirname+'/'+filename, async (err) => {
-    //   if (err) throw err;
-    //   console.log("Sending:",__dirname+'/'+filename)
-    //   await res.sendFile(__dirname+'/'+filename)
-    //   // await fs.unlink(__dirname+'/'+filename,(err)=>{
-    //   //   if (err) throw err;
-    //   // })
-    // });
-
   }catch(err){
     console.log(err)
   }
@@ -48,6 +39,44 @@ app.get("/images",async(req,res)=>{
       })
       res.json({images:files})
     });
+
+  }catch(err){ 
+    console.log(err); 
+  }
+})
+
+app.get("/folders",async(req,res)=>{
+  try{
+
+    if (!req.query.url) return
+
+    const getDirectories = source =>
+    fs.readdirSync(req.query.url, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+
+    console.log("Folders:")
+    console.log(getDirectories())
+    res.json({'classes':getDirectories()})
+
+  }catch(err){ 
+    console.log(err); 
+  }
+})
+
+app.post("/move",async(req,res)=>{
+  try{
+
+    if (!req.query.url) return
+
+    const getDirectories = source =>
+    fs.readdirSync(req.query.url, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+
+    console.log("Folders:")
+    console.log(getDirectories())
+    res.json({'classes':getDirectories()})
 
   }catch(err){ 
     console.log(err); 

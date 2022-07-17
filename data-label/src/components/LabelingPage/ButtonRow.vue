@@ -5,8 +5,9 @@
         <div :class="`m-0.5 my-2 `" v-for="option in options" :key="option.value">
             <!-- Numbers -->
             <button 
+                @click="classify(option.value)"
                 :class="`border-2 border-black min-w-100 text-white font-bold py-2 px-4 rounded bg-${option.color}-${option.force-200} hover:bg-${option.color}-${option.force}`"
-                value="option.value">({{option.value}})</button>
+                value="option.value">{{option.value}}</button>
         </div>
     </div>
 
@@ -22,7 +23,7 @@
 
     <div class="flex justify-center">
         <div class="flex m-0.5 my-2">
-            <button class="w-40 font-bold text-xl bg-green-500 hover:bg-green-700 py-2 px-4 rounded border-2 border-black">
+            <button @click="shuffle()" class="w-40 font-bold text-xl bg-green-500 hover:bg-green-700 py-2 px-4 rounded border-2 border-black">
                 <i class="fa-solid fa-arrows-rotate"></i>
             </button>  
         </div> 
@@ -60,8 +61,9 @@
 <script>
 export default {
     name: 'ButtonRow',
+    emits: ['shuffle','move'],
     props: {
-        customOptions:{
+        addedLabels:{
             type:Array,
             default(){return []}
         },
@@ -71,16 +73,70 @@ export default {
         return{
             newLabel:"",
             newValue:"",
-            addedLabels:[],
             showNumbers: true,
+            options:[]
             // showEmojis: true,
             // emojiList: '🤬😡😠😒😑😦🙁😐🙂😀😄😄😁😆🤣😂'
         }
     },
 
-    computed:{
-        options(){
-            return [
+    watch:{
+        // options:{
+        //     get(){
+            
+        //     return set
+        //     }
+        // },
+        // emojis(){
+        //     let obj = []
+            
+        //     [..."🤬😡😠😒😑😦🙁😐🙂😀😄😄😁😆🤣😂"].forEach( (e,i) => {
+        //         let x = ({
+        //             icon: this.emojiList[i],
+        //             id:i
+        //         })
+        //         console.log(x)
+        //         obj.push(x)
+        //     })
+        //     return obj
+        // }
+    },
+
+    methods: {
+
+        shuffle(){
+            this.$emit('shuffle','1')
+        },
+
+        classify(className){
+            if (this.$router.params.action == 'mv'){
+                this.$emit('move',className)
+            }
+        }
+
+        // addNewBtn() {
+
+        //     //naive check on new label
+        //     if (!this.newLabel || !this.newValue) return 
+
+        //     //filter to see if button w/ that value already exists
+        //     if (this.options.some(e => e['value'] == this.newValue)) return
+
+        //     this.addedLabels.push({
+        //         text:this.newLabel,
+        //         value:this.newValue,
+        //         color:'green',
+        //         force:'700'
+        //     })
+
+        //     this.newLabel = ""
+        //     this.newValue = ""
+        // },
+        
+    },
+
+    mounted(){
+        let set = [
                 {
                     text:'Extra Negative',
                     value: -3,
@@ -123,44 +179,11 @@ export default {
                     color: 'blue',
                     force: '900'   
                 },
-            ].concat(this.addedLabels)
-        },
-        // emojis(){
-        //     let obj = []
-            
-        //     [..."🤬😡😠😒😑😦🙁😐🙂😀😄😄😁😆🤣😂"].forEach( (e,i) => {
-        //         let x = ({
-        //             icon: this.emojiList[i],
-        //             id:i
-        //         })
-        //         console.log(x)
-        //         obj.push(x)
-        //     })
-        //     return obj
-        // }
-    },
-
-    methods: {
-        addNewBtn() {
-
-            //naive check on new label
-            if (!this.newLabel || !this.newValue) return 
-
-            //filter to see if button w/ that value already exists
-            if (this.options.some(e => e['value'] == this.newValue)) return
-
-            this.addedLabels.push({
-                text:this.newLabel,
-                value:this.newValue,
-                color:'green',
-                force:'700'
-            })
-
-            this.newLabel = ""
-            this.newValue = ""
-        },
-        
-    },
+            ]
+            set = this.$props.addedLabels
+            console.log(set)
+            this.options = set
+    }
 
 }
 

@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LandingPage from '../views/Root.vue'
+import LabelingPage from '../views/Label.vue'
+import ProjectManagePage from '../views/ProjectManage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Root',
-    component: LandingPage
+    name: 'ProjectManage',
+    component: ProjectManagePage
+  },
+  {
+    path: '/labeling',
+    name: 'Label',
+    component: LabelingPage
   },
   {
     path: '/about',

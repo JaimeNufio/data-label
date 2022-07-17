@@ -1,8 +1,8 @@
 <template>
 
 <!-- <div class="mx-auto max-w-xl"> -->
-<div class="mx-auto  max-w-3xl">
-  <DataDisplay data="" dir='' class="mt-5"></DataDisplay>
+<div class="mx-auto max-w-4xl">
+  <DataDisplay data="" :info="this.$route.params" class="mt-5"></DataDisplay>
 
 </div>
 
@@ -14,8 +14,24 @@ import DataDisplay from './DataDisplay.vue'
 
 export default {
   components:{ DataDisplay},
-  name: 'LandingPage',
+  name: 'LabelingPage',
   props: {
+    dir:{
+      type: String,
+      default() {
+        return "/missing"
+      }
+    }
+  },
+
+  data(){
+    return {
+      projectDir:""
+    }
+  },
+
+  mounted(){
+    // this.projectDir = this.$route.params.dir
   }
 }
 </script>

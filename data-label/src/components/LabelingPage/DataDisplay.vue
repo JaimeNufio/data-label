@@ -1,9 +1,9 @@
 <template>
-<div>
+<div class="">
     <!-- <div class="text-left font-bold text-2xl mb-1">
         Tweet:
     </div> -->
-    <div class="flex-col">
+    <div class="">
     
     <div v-if="datum.type == 'Tweet'" class=" flex flex-col p-5 bg-blue-200 rounded-md text-left ">
         <div class="pt-2 flex mb-1">
@@ -31,20 +31,21 @@
             </div>
         </div>
     </div>
-    <div v-if="datum.type == 'image'" class="mx-auto max-w-lg overflow-hidden flex flex-col rounded-md text-left">
+    
+    <div v-if="datum.type == 'image'" class="overflow-hidden rounded-md text-left">
         <div>{{datum.filenname}}</div>
-        <div class="flex  text-5xl mx-auto">
+        <div class="flex text-5xl justify-center ">
             <div @click="()=>{this.changeIndex(-1)}" class="my-auto p-2 bg-blue-500 rounded-lg border-2 border-black">
                 <i class="fa-solid fa-caret-left m-2"></i>
             </div>
-            <img class="object-cover h-96 w-96 mx-12 overflow-hidden bg-red-500  rounded-xl border-2 border-black"  :src="imageLocation"/>
+            <img class="h-full w-80 object-scale-down mx-5 overflow-hidden  rounded-xl"  :src="imageLocation"/>
             <button @click="()=>{changeIndex(1)}" class="my-auto p-2 bg-blue-500 rounded-lg border-2 border-black">
                 <i class="fa-solid fa-caret-right m-2"></i>
             </button>
         </div>
 </div>
 
-    <ButtonRow class="mt-3"></ButtonRow>
+    <ButtonRow @classify="handleClassify" @shuffle="shuffleArray" :addedLabels="CalculatedOptions" class="mt-3"></ButtonRow>
 
 
     </div>
@@ -86,7 +87,7 @@
         dir:{
             type: String,
             default(){
-                return ''
+                return 'ah'
             }
         }
     },
@@ -99,7 +100,9 @@
             index:0,
             images:{
                 all:['']
-            }
+            },
+            classes:[],
+            CalculatedOptions:[]
         }
     },
 
@@ -109,6 +112,16 @@
             const mean = array.reduce((a, b) => a + b) / n
             return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
         },
+
+        shuffleArray() {
+            let array = this.images.all
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            this.index+=1
+        },
+
         changeIndex(delta){
             let newIndex = this.index+delta
             if (newIndex >= this.images.length ){
@@ -117,7 +130,10 @@
                 newIndex = this.images.length -1
             }
             this.index = newIndex
-            console.log(this.index)
+        },
+
+        handleClassify(e){
+            
         }
     },
 
@@ -127,8 +143,7 @@
             handler() {
 
                 if (this.imagePath){
-                console.log('index changed, new imagePath',this.imagePath)
-                this.imageLocation = axios.getUri({
+                    this.imageLocation = axios.getUri({
                     url:'http://localhost:3000/fetchimage',
                     params:{url:this.imagePath}
                 })
@@ -144,18 +159,38 @@
         imagePath:{
             get(){
                 
-                if (this.images.all[this.index]) return this.dir+"\\"+this.images.all[this.index]
+                if (this.images.all[this.index]) return this.$route.params.dir+"/"+this.images.all[this.index]
                 return ''
             }
         }
     },
 
     async mounted() {
+        console.log("Mounted saw prop dir as: ",this.$route.params.dir)
         await axios.get('http://localhost:3000/images',
-            {params: { url: this.dir}}
+            {params: { url: this.$route.params.dir}}
         ).then(res => {
             this.images.all = res.data['images']
-            this.index = 0
+            this.index +=1
+            // this.imageSrc = this.images.all[this.index]
+        });
+
+        await axios.get('http://localhost:3000/folders',
+            {params: { url: this.$route.params.dirDump}}
+        ).then(res => {
+            console.log(res.data)
+            this.classes = res.data.classes
+            this.classes.forEach(e=>{
+                this.CalculatedOptions.push(
+                {
+                    text:e,
+                    value: e,
+                    color: 'green',
+                    force: '900'
+                },
+                )
+                // console.log(e)
+            })
             // this.imageSrc = this.images.all[this.index]
         });
     }

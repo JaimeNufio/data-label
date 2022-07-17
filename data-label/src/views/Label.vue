@@ -1,17 +1,17 @@
 <template>
   <div class="">
-    <LandingPage/>
+    <LabelingPage/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import LandingPage from '@/components/LandingPage/LandingPage.vue'
+import LabelingPage from '@/components/LabelingPage/LabelingPage.vue'
 
 export default {
-  name: 'Root',
+  name: 'Label',
   components: {
-    LandingPage
+    LabelingPage
   }
 }
 </script>
